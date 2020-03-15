@@ -13,7 +13,7 @@ namespace DAL.Data
         {
             AppConfiguration appConfiguration = new AppConfiguration();
             
-            DbContextOptionsBuilder optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            DbContextOptionsBuilder<ApplicationDbContext> optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder.UseSqlServer(appConfiguration.sqlConnectionString);
 
             return new ApplicationDbContext(optionsBuilder.Options);

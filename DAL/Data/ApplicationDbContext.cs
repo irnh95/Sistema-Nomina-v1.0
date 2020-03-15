@@ -9,16 +9,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Sistema_Nomina_v1._0.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<Employee, IdentityRole<int>, int>
+    public class ApplicationDbContext : IdentityDbContext<Employee<int>, IdentityRole<int>, int>
     {
         //DbSets
-        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Employee<int>> Employees { get; set; }
 
         /// <summary>
         /// constructor
         /// </summary>
         /// <param name="options"></param>
-        public ApplicationDbContext(DbContextOptions options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
@@ -30,8 +30,8 @@ namespace Sistema_Nomina_v1._0.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Employee>().ToTable("Employee");
-            modelBuilder.Entity<IdentityRole>().ToTable("Role");
+            modelBuilder.Entity<Employee<int>>().ToTable("Employee");
+            modelBuilder.Entity<IdentityRole<int>>().ToTable("Role");
             modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("UserClaim");
             modelBuilder.Entity<IdentityUserRole<int>>().ToTable("EmployeeRole");
             modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("UserLogin");
