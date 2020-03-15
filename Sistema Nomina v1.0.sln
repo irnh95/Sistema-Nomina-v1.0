@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sistema Nomina v1.0", "Sistema Nomina v1.0\Sistema Nomina v1.0.csproj", "{FB2F672E-E7A6-4688-B162-AE4B94FED0DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sistema Nomina v1.0", "Sistema Nomina v1.0\Sistema Nomina v1.0.csproj", "{FB2F672E-E7A6-4688-B162-AE4B94FED0DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{EFEDDE83-688C-4856-A999-D72E76B35F81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{92F3ED17-344E-4E80-82F1-77C3643466CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{FB2F672E-E7A6-4688-B162-AE4B94FED0DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB2F672E-E7A6-4688-B162-AE4B94FED0DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB2F672E-E7A6-4688-B162-AE4B94FED0DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFEDDE83-688C-4856-A999-D72E76B35F81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFEDDE83-688C-4856-A999-D72E76B35F81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFEDDE83-688C-4856-A999-D72E76B35F81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFEDDE83-688C-4856-A999-D72E76B35F81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92F3ED17-344E-4E80-82F1-77C3643466CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92F3ED17-344E-4E80-82F1-77C3643466CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92F3ED17-344E-4E80-82F1-77C3643466CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92F3ED17-344E-4E80-82F1-77C3643466CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
