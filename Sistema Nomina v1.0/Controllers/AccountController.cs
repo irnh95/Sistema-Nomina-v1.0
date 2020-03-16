@@ -15,7 +15,11 @@ namespace Sistema_Nomina_v1._0.Controllers
 {
     public class AccountController : ApplicationController
     {
-        public AccountController(SignInManager<Employee> signInManager, ILogger<HomeController> logger, IMapper mapper) : base(signInManager, logger, mapper)
+        public AccountController(
+            UserManager<Employee> userManager, 
+            SignInManager<Employee> signInManager, 
+            ILogger<HomeController> logger, 
+            IMapper mapper) : base(userManager,signInManager, logger, mapper)
         {
         }
 
@@ -48,7 +52,7 @@ namespace Sistema_Nomina_v1._0.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Correo o contraseña incorrecto.");
                     return View();
                 }
             }

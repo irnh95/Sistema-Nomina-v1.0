@@ -9,9 +9,12 @@ namespace BLL.ViewModels
     {
         [Required]
         [EmailAddress]
+        [Display(Name ="Correo")]
         public string Email { get; set; }
 
         [Required]
+
+        [Display(Name = "Contraseña")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

@@ -1,103 +1,42 @@
 ﻿@model IEnumerable<BLL.ViewModels.EmployeeVM>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Empleados";
 }
 
-<h1>Index</h1>
+<h1>Empleados</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Nuevo Empleado</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ConfirmPassword)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ApellidoPaterno)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ApellidoMaterno)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Base)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeduccionDesayuno)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeduccionAhorro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeduccionGasolina)
-            </th>
-            <th>
+            <td>
                 @Html.DisplayNameFor(model => model.Activo)
-            </th>
+            </td>
             <th>
                 @Html.DisplayNameFor(model => model.FechaIngreso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaBaja)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ConfirmPassword)
-            </td>
+        <tr class="@((!item.Activo ? "bg-danger" : ""))">
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.ApellidoPaterno)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.ApellidoMaterno)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Base)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeduccionDesayuno)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeduccionAhorro)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeduccionGasolina)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Activo)
@@ -106,12 +45,16 @@
                 @Html.DisplayFor(modelItem => item.FechaIngreso)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaBaja)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                <a href="@Url.Action("Details", "Employee", new { id = item.Id })" data-toggle="tooltip" title="Detalles" data-placement="top"><i class="fas fa-info-circle"></i></a>  |
+                <a href="@Url.Action("Edit", "Admin", new { id = item.Id})" data-toggle="tooltip" title="Editar" data-placement="top"><i class="fas fa-edit"></i></a>  |
+                @if (item.Activo)
+                {
+                    <a href="@Url.Action("Delete", "Admin", new { id = item.Id })" data-toggle="tooltip" title="Bloquer" data-placement="top"><i class="fas fa-toggle-on"></i></a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Delete", "Admin", new { id = item.Id })" data-toggle="tooltip" title="Desbloquear" data-placement="top"><i class="fas fa-toggle-off"></i></a>
+                }
             </td>
         </tr>
 }

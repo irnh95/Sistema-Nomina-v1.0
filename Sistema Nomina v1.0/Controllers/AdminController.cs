@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using BLL.ViewModels;
 using DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,46 +13,46 @@ using Microsoft.Extensions.Logging;
 
 namespace Sistema_Nomina_v1._0.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : ApplicationController
     {
-        public AdminController(SignInManager<Employee> signInManager, ILogger<HomeController> logger, IMapper mapper) : base(signInManager, logger, mapper)
+        public AdminController(UserManager<Employee> userManager, SignInManager<Employee> signInManager, ILogger<HomeController> logger, IMapper mapper) : base(userManager, signInManager, logger, mapper)
         {
         }
 
         // GET: Admin
         public ActionResult Index()
         {
-            return View();
-        }
-
-        // GET: Admin/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
+            return View(_employeeLogic.GetEmployees());
         }
 
         // GET: Admin/Create
         public ActionResult Create()
         {
-            return View();
+            ViewBag.Roles = _roleLogic.GetRoles();
+            return View(new EmployeeVM());
         }
 
         // POST: Admin/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(EmployeeVM employeeVM)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _employeeLogic.Register(employeeVM);
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            catch
+            catch (Exception e)
             {
-                return View();
             }
+
+            ViewBag.Roles = _roleLogic.GetRoles();
+            return View(employeeVM);
+
         }
 
         // GET: Admin/Edit/5

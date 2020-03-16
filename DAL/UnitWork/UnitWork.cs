@@ -12,6 +12,7 @@ namespace DAL.UnitWork
         private ApplicationDbContext _dbContext;
         private EmployeeRepo _employee;
         private EmployeeRoleRepo _employeeRole;
+        private RoleRepo _role;
 
 
         public UnitWork()
@@ -38,6 +39,15 @@ namespace DAL.UnitWork
             {
                 return _employeeRole ??
                     (_employeeRole = new EmployeeRoleRepo(_dbContext));
+            }
+        }
+
+        public RoleRepo Role
+        {
+            get
+            {
+                return _role ??
+                    (_role = new RoleRepo(_dbContext));
             }
         }
 

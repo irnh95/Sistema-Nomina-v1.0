@@ -7,6 +7,7 @@ namespace DAL.UnitWork
 
         EmployeeRepo Employee { get; }
         EmployeeRoleRepo EmployeeRole { get; }
+        RoleRepo Role { get; }
         void Commit();
     }
 }

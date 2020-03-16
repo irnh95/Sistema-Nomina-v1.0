@@ -16,7 +16,7 @@ namespace Sistema_Nomina_v1._0.Controllers
     [Authorize]
     public class EmployeeController : ApplicationController
     {
-        public EmployeeController(SignInManager<Employee> signInManager, ILogger<HomeController> logger, IMapper mapper) : base(signInManager, logger, mapper)
+        public EmployeeController(UserManager<Employee> userManager, SignInManager<Employee> signInManager, ILogger<HomeController> logger, IMapper mapper) : base(userManager, signInManager, logger, mapper)
         {
         }
 

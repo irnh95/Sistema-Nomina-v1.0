@@ -18,8 +18,11 @@ namespace Sistema_Nomina_v1._0.Controllers
         protected readonly SignInManager<Employee> _signInManager;
         protected readonly IMapper _mapper;
         protected readonly EmployeeLogic _employeeLogic;
+        protected readonly RoleLogic _roleLogic;
 
-        public ApplicationController(SignInManager<Employee> signInManager,
+        public ApplicationController(
+            UserManager<Employee> userManager,
+            SignInManager<Employee> signInManager,
             ILogger<HomeController> logger,
             IMapper mapper)
         {
@@ -27,7 +30,8 @@ namespace Sistema_Nomina_v1._0.Controllers
             _signInManager = signInManager;
             _mapper = mapper;
 
-            _employeeLogic = new EmployeeLogic(_mapper);
+            _employeeLogic = new EmployeeLogic(_mapper, userManager);
+            _roleLogic = new RoleLogic(_mapper);
         }
     }
 }
