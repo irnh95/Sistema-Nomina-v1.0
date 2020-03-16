@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200315220517_startDbSchema.cs" />
     <Compile Remove="Migrations\20200315220517_startDbSchema.Designer.cs" />
+    <Compile Remove="Migrations\20200316004150_UsingRoles.cs" />
+    <Compile Remove="Migrations\20200316004150_UsingRoles.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

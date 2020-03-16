@@ -12,6 +12,8 @@ namespace DAL.Data
     {
         //DbSets
         public DbSet<Employee<int>> Employees { get; set; }
+        public DbSet<IdentityUserRole<int>> EmployeeRole { get; set; }
+        public DbSet<IdentityRole<int>> Role { get; set; }
 
         /// <summary>
         /// constructor

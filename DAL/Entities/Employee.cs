@@ -42,6 +42,6 @@ namespace DAL.Entities
         [Required]
         public DateTime FechaBaja { get; set; }
 
-        public ICollection<IdentityUserRole<int>> userRole { get; set; }
+        public ICollection<IdentityUserRole<int>> employeeRole { get; set; }
     }
 }
