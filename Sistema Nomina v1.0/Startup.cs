@@ -43,7 +43,7 @@ namespace Sistema_Nomina_v1._0
             services.AddAuthentication()
                 .AddCookie(options => {
                     options.LoginPath = "/Account/LogIn/";
-                    options.AccessDeniedPath = "/Account/Forbidden/";
+                    options.AccessDeniedPath = "/Home/Index";
                 });
 
             services.AddAutoMapper(typeof(Startup));

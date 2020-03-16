@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -13,8 +14,16 @@ namespace BLL.ViewModels
         public int Id { get; set; }
         [Required]
         public string UserName { get; set; }
+
         [Required]
+        [DataType(DataType.Password)]
         public string password { get; set; }
+        [Required]
+        [Display(Name = "Confirm Password")]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Your password and confirm password do not match")]
+        public string ConfirmPassword { get; set; }
+
         [Required]
         public string Email { get; set; }
         [Required]
@@ -41,13 +50,13 @@ namespace BLL.ViewModels
         public decimal DeduccionGasolina { get; set; }
 
 
-        [Required]
+
+        [DefaultValue(true)]
         public bool Activo { get; set; }
 
         [Required]
         public DateTime FechaIngreso { get; set; }
 
-        [Required]
         public DateTime FechaBaja { get; set; }
 
         public ICollection<EmployeeRoleVM> employeeRole { get; set; }

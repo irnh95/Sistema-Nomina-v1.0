@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -33,13 +34,13 @@ namespace DAL.Entities
         public decimal DeduccionGasolina { get; set; }
 
 
-        [Required]
+        [DefaultValue(true)]
         public bool Activo { get; set; }
 
         [Required]
         public DateTime FechaIngreso { get; set; }
 
-        [Required]
+
         public DateTime FechaBaja { get; set; }
 
         public ICollection<IdentityUserRole<int>> employeeRole { get; set; }
