@@ -23,12 +23,24 @@ namespace Sistema_Nomina_v1._0.Controllers
         // GET: Admin
         public ActionResult Index()
         {
+            if (Helpers.Helpers.IsUserActive(User.Identity.Name, _employeeLogic))
+            {
+                ModelState.AddModelError(string.Empty, "Usuario Desabilitado.");
+                return RedirectToAction("LogOut", "Account");
+            }
+
             return View(_employeeLogic.GetEmployees());
         }
 
         // GET: Admin/Create
         public ActionResult Create()
         {
+            if (Helpers.Helpers.IsUserActive(User.Identity.Name, _employeeLogic))
+            {
+                ModelState.AddModelError(string.Empty, "Usuario Desabilitado.");
+                return RedirectToAction("LogOut", "Account");
+            }
+
             ViewBag.Roles = _roleLogic.GetRoles();
             return View(new EmployeeVM());
         }
@@ -38,6 +50,11 @@ namespace Sistema_Nomina_v1._0.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(EmployeeVM employeeVM)
         {
+            if (Helpers.Helpers.IsUserActive(User.Identity.Name, _employeeLogic))
+            {
+                ModelState.AddModelError(string.Empty, "Usuario Desabilitado.");
+                return RedirectToAction("LogOut", "Account");
+            }
             try
             {
                 if (ModelState.IsValid)
@@ -76,6 +93,12 @@ namespace Sistema_Nomina_v1._0.Controllers
         // GET: Admin/Edit/5
         public ActionResult Edit(int id)
         {
+            if (Helpers.Helpers.IsUserActive(User.Identity.Name, _employeeLogic))
+            {
+                ModelState.AddModelError(string.Empty, "Usuario Desabilitado.");
+                return RedirectToAction("LogOut", "Account");
+            }
+
             ViewBag.Roles = _roleLogic.GetRoles();
             return View(_employeeLogic.GetEmployeById(id));
         }
@@ -85,6 +108,12 @@ namespace Sistema_Nomina_v1._0.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, EmployeeVM employeeVM)
         {
+            if (Helpers.Helpers.IsUserActive(User.Identity.Name, _employeeLogic))
+            {
+                ModelState.AddModelError(string.Empty, "Usuario Desabilitado.");
+                return RedirectToAction("LogOut", "Account");
+            }
+
             try
             {
                 if (ModelState.IsValid)
@@ -112,6 +141,12 @@ namespace Sistema_Nomina_v1._0.Controllers
         // GET: Admin/Delete/5
         public ActionResult Delete(int id)
         {
+            if (Helpers.Helpers.IsUserActive(User.Identity.Name, _employeeLogic))
+            {
+                ModelState.AddModelError(string.Empty, "Usuario Desabilitado.");
+                return RedirectToAction("LogOut", "Account");
+            }
+
             _employeeLogic.SwitchStatus(id);
             _employeeLogic.Commit();
             return RedirectToAction(nameof(Index));

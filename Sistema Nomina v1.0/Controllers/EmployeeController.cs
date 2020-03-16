@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.Logic;
+using BLL.ViewModels;
 using DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -21,84 +22,32 @@ namespace Sistema_Nomina_v1._0.Controllers
         }
 
         // GET: Employee
-        public ActionResult Index()
+        public ActionResult Index(int? id = null)
         {
-            return View(_employeeLogic.GetEmployees());
+            if(Helpers.Helpers.IsUserActive(User.Identity.Name, _employeeLogic))
+            {
+                ModelState.AddModelError(string.Empty, "Usuario Desabilitado.");
+                return RedirectToAction("LogOut","Account");
+            }
+
+            EmployeeVM employeeVM = 
+                (id != null && User.IsInRole("Admin"))? 
+                    _employeeLogic.GetEmployeById((int)id) : 
+                    _employeeLogic.GetEmployeByEmail(User.Identity.Name);
+
+            return View(employeeVM);
         }
 
         // GET: Employee/Details/5
         public ActionResult Details(int id)
         {
+            if (Helpers.Helpers.IsUserActive(User.Identity.Name, _employeeLogic))
+            {
+                ModelState.AddModelError(string.Empty, "Usuario Desabilitado.");
+                return RedirectToAction("LogOut", "Account");
+            }
+
             return View();
-        }
-
-        // GET: Employee/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Employee/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Employee/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Employee/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Employee/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Employee/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

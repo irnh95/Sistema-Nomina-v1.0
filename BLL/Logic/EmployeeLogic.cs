@@ -37,6 +37,10 @@ namespace BLL.Logic
             employeeVM.employeeRoleId = _unitWork.EmployeeRole.Get(X => X.UserId == id).Select(x => x.RoleId).ToList();
             return employeeVM;
         }
+        public EmployeeVM GetEmployeByEmail(string email)
+        {
+            return _mapper.Map<EmployeeVM>(_unitWork.Employee.GetByEmail(email));
+        }
         public int GetEmployeIdByEmail(string email)
         {
             return _unitWork.Employee.GetByEmail(email).Id;

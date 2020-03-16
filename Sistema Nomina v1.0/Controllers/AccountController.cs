@@ -42,6 +42,12 @@ namespace Sistema_Nomina_v1._0.Controllers
                 var result = _signInManager.PasswordSignInAsync(login.Email, login.Password, login.RememberMe, lockoutOnFailure: false).Result;
                 if (result.Succeeded)
                 {
+                    if (Helpers.Helpers.IsUserActive(login.Email, _employeeLogic))
+                    {
+                        ModelState.AddModelError(string.Empty, "Usuario desactivado.");
+                        return View();
+                    }
+
                     _logger.LogInformation("User logged in.");
                     return RedirectToAction("Index", "Home");
                 }
@@ -59,8 +65,7 @@ namespace Sistema_Nomina_v1._0.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpGet]
         public async Task<ActionResult> LogOutAsync()
         {
 

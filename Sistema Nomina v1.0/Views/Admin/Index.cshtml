@@ -45,7 +45,7 @@
                 @Html.DisplayFor(modelItem => item.FechaIngreso)
             </td>
             <td>
-                <a href="@Url.Action("Details", "Employee", new { id = item.Id })" data-toggle="tooltip" title="Detalles" data-placement="top"><i class="fas fa-info-circle"></i></a>  |
+                <a href="@Url.Action("index", "Employee", new { id = item.Id })" data-toggle="tooltip" title="Detalles" data-placement="top"><i class="fas fa-info-circle"></i></a>  |
                 <a href="@Url.Action("Edit", "Admin", new { id = item.Id})" data-toggle="tooltip" title="Editar" data-placement="top"><i class="fas fa-edit"></i></a>  |
                 @if (item.Activo)
                 {

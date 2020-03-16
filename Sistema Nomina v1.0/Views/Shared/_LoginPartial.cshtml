@@ -10,9 +10,7 @@
             <a class="nav-link text-dark">Hola @User.Identity.Name!</a>
         </li>
         <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-controller="Account" asp-action="LogOut">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogOut">Log Out</a>
         </li>
     </ul>
 
