@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using AutoMapper;
 using DAL.Entities;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Sistema_Nomina_v1._0
 {
@@ -32,11 +33,18 @@ namespace Sistema_Nomina_v1._0
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<Employee>()
+
+            services.AddIdentity<Employee, IdentityRole<int>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddControllersWithViews();
             //services.AddRazorPages();
 
+            services.AddAuthentication()
+                .AddCookie(options => {
+                    options.LoginPath = "/Account/LogIn/";
+                    options.AccessDeniedPath = "/Account/Forbidden/";
+                });
 
             services.AddAutoMapper(typeof(Startup));
         }
