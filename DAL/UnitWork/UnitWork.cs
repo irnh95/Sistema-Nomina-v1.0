@@ -14,6 +14,10 @@ namespace DAL.UnitWork
         private EmployeeRoleRepo _employeeRole;
 
 
+        public UnitWork()
+        {
+            _dbContext = new ApplicationDbContext(ApplicationDbContext.optionsBuild.options);
+        }
         public UnitWork(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
