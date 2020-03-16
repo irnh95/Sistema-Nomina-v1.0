@@ -24,7 +24,7 @@ namespace BLL.Logic
         {
             try
             {
-                return _mapper.Map<List<EmployeeVM>>(_unitWork.Employee.Get());
+                return _mapper.Map<List<EmployeeVM>>(_unitWork.Employee.Get().OrderByDescending(x=>x.FechaIngreso));
             }
             catch (Exception e)
             {
@@ -62,8 +62,6 @@ namespace BLL.Logic
             }
             return result;
         }
-
-
         public void Update(EmployeeVM employeeVM)
         {
             Employee employee = _unitWork.Employee.GetByID(employeeVM.Id);
@@ -91,6 +89,17 @@ namespace BLL.Logic
                 string token = _userManager.GeneratePasswordResetTokenAsync(employee).Result;
                 _userManager.ResetPasswordAsync(employee, token, employeeVM.Password);
             }
+        }
+        public void SwitchStatus(int id)
+        {
+            Employee employee = _unitWork.Employee.GetByID(id);
+            if (employee.Activo)
+            {
+                employee.FechaBaja = DateTime.Now.Date;
+            }
+            employee.Activo = !employee.Activo;
+
+            _unitWork.Employee.update(employee);
         }
 
         // methods for Roles

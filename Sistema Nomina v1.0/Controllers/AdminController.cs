@@ -112,24 +112,9 @@ namespace Sistema_Nomina_v1._0.Controllers
         // GET: Admin/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
-        }
-
-        // POST: Admin/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _employeeLogic.SwitchStatus(id);
+            _employeeLogic.Commit();
+            return RedirectToAction(nameof(Index));
         }
     }
 }
