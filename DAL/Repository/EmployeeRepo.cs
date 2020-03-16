@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DAL.Repository
 {
-    public class EmployeeRepo : Repository<Employee<int>>
+    public class EmployeeRepo : Repository<Employee>
     {
         public EmployeeRepo(ApplicationDbContext context) : base(context)
         {

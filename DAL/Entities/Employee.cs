@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DAL.Entities
 {
-    public class Employee<Tkey> : IdentityUser<Tkey> where Tkey : IEquatable<Tkey>
+    public class Employee : IdentityUser<int>
     {
         [Required]
         public string Nombre { get; set; }

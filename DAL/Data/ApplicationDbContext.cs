@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<Employee<int>, IdentityRole<int>, int>
+    public class ApplicationDbContext : IdentityDbContext<Employee, IdentityRole<int>, int>
     {
         //DbSets
-        public DbSet<Employee<int>> Employees { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         public DbSet<IdentityUserRole<int>> EmployeeRole { get; set; }
         public DbSet<IdentityRole<int>> Role { get; set; }
 
@@ -31,7 +31,7 @@ namespace DAL.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Employee<int>>().ToTable("Employee");
+            modelBuilder.Entity<Employee>().ToTable("Employee");
             modelBuilder.Entity<IdentityRole<int>>().ToTable("Role");
             modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("UserClaim");
             modelBuilder.Entity<IdentityUserRole<int>>().ToTable("EmployeeRole");
