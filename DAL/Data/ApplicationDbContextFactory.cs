@@ -1,5 +1,4 @@
-﻿using Sistema_Nomina_v1._0.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore.Design;

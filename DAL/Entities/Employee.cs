@@ -32,7 +32,16 @@ namespace DAL.Entities
         [Column(TypeName = "decimal(18, 2)")]
         public decimal DeduccionGasolina { get; set; }
 
+
+        [Required]
+        public bool Activo { get; set; }
+
         [Required]
         public DateTime FechaIngreso { get; set; }
+
+        [Required]
+        public DateTime FechaBaja { get; set; }
+
+        public ICollection<IdentityUserRole<int>> userRole { get; set; }
     }
 }

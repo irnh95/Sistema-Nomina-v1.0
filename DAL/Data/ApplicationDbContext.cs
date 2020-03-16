@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using DAL.Data;
 using DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Sistema_Nomina_v1._0.Data
+namespace DAL.Data
 {
     public class ApplicationDbContext : IdentityDbContext<Employee<int>, IdentityRole<int>, int>
     {
