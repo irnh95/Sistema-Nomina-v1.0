@@ -3,12 +3,13 @@
 
 
 @{
-    ViewData["Title"] = "Nuevo Empleado";
+    ViewData["Title"] = "Editar Empleado";
 }
 
 <h1>Nuevo Empleado</h1>
 <hr />
-<form asp-action="Create">
+<form asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
     <div class="row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="col-12 col-md-4">
@@ -37,6 +38,13 @@
                 <label asp-for="FechaIngreso" class="control-label"></label>
                 @Html.TextBoxFor(x => x.FechaIngreso, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
                 <span asp-validation-for="FechaIngreso" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="form-group">
+                <label asp-for="FechaBaja" class="control-label"></label>
+                @Html.TextBoxFor(x => x.FechaBaja, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                <span asp-validation-for="FechaBaja" class="text-danger"></span>
             </div>
         </div>
         <div class="col-12 col-md-4">
@@ -73,7 +81,7 @@
         <div class="col-12 col-md-4">
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Activo" checked/> @Html.DisplayNameFor(model => model.Activo)
+                    <input class="form-check-input" asp-for="Activo" checked /> @Html.DisplayNameFor(model => model.Activo)
                 </label>
             </div>
         </div>
@@ -84,7 +92,7 @@
                 @foreach (RoleVM role in ViewBag.Roles)
                 {
                     <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" data-val="true" name="employeeRoleId" value="@role.Id"  @(( Model.employeeRoleId != null && Model.employeeRoleId.Any(x=> x == role.Id))? "Checked": null)> @role.Name
+                        <input class="form-check-input" type="checkbox" data-val="true" name="employeeRoleId" value="@role.Id" @(Model.employeeRoleId.Any(x=> x == role.Id)? "Checked": null) > @role.Name
                     </label>
                 }
             </div>
@@ -115,7 +123,7 @@
         </div>
         <div class="col-12 offset-md-8 col-md-4">
             <div class="form-group">
-                <input type="submit" value="Crear Empleado" class="btn btn-primary" />
+                <input type="submit" value="Guardar Cambios" class="btn btn-primary" />
             </div>
         </div>
     </div>

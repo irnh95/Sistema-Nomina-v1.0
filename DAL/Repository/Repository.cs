@@ -22,6 +22,18 @@ namespace DAL.Repository
             this.dbSet = context.Set<TEntity>();
         }
 
+        public void DeleteBatch(IEnumerable<TEntity> entities)
+        {
+            foreach (TEntity entity in entities)
+            {
+                if (context.Entry(entity).State == EntityState.Detached)
+                {
+                    dbSet.Attach(entity);
+                }
+            }
+            dbSet.RemoveRange(entities);
+        }
+
         public void Delete(TEntity entity)
         {
             if (context.Entry(entity).State == EntityState.Detached)
@@ -71,9 +83,13 @@ namespace DAL.Repository
             return dbSet.Find(id);
         }
 
-        public void inset(TEntity entity)
+        public void Add(TEntity entity)
         {
             dbSet.Add(entity);
+        }
+        public void AddBatch(IEnumerable<TEntity> entities)
+        {
+            dbSet.AddRange(entities);
         }
 
         public void update(TEntity entity)

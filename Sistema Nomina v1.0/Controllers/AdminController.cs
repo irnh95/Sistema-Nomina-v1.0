@@ -42,8 +42,26 @@ namespace Sistema_Nomina_v1._0.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _employeeLogic.Register(employeeVM);
-                    return RedirectToAction(nameof(Index));
+                    IdentityResult result = _employeeLogic.Create(employeeVM);
+                    if (result.Succeeded)
+                    {
+
+                        if (employeeVM.employeeRoleId != null)
+                        {
+                            _employeeLogic.AddRoles(_employeeLogic.GetEmployeIdByEmail(employeeVM.Email), employeeVM.employeeRoleId);
+                        }
+                        _employeeLogic.Commit();
+
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        foreach (IdentityError error in result.Errors)
+                        {
+                            if(error.Code == "DuplicateUserName")
+                            ModelState.AddModelError("Email", "El correo ya esta en uso.");
+                        }
+                    }
                 }
             }
             catch (Exception e)
@@ -58,24 +76,37 @@ namespace Sistema_Nomina_v1._0.Controllers
         // GET: Admin/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            ViewBag.Roles = _roleLogic.GetRoles();
+            return View(_employeeLogic.GetEmployeById(id));
         }
 
         // POST: Admin/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, EmployeeVM employeeVM)
         {
             try
             {
-                // TODO: Add update logic here
+                if (ModelState.IsValid)
+                {
+                    // update roles
+                    _employeeLogic.DeleteEmployeeRoles(id);
+                    if (employeeVM.employeeRoleId != null)
+                    {
+                        _employeeLogic.AddRoles(id, employeeVM.employeeRoleId);
+                    }
 
-                return RedirectToAction(nameof(Index));
+                    //edit
+                    _employeeLogic.Update(employeeVM);
+                    _employeeLogic.Commit();
+                    return RedirectToAction(nameof(Index));
+                }
             }
             catch
             {
-                return View();
             }
+            ViewBag.Roles = _roleLogic.GetRoles();
+            return View(employeeVM);
         }
 
         // GET: Admin/Delete/5

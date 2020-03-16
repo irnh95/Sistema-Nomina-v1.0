@@ -19,6 +19,7 @@ namespace BLL.Logic
             _userManager = useManager;
         }
 
+        // methods for employees
         public IEnumerable<EmployeeVM> GetEmployees()
         {
             try
@@ -30,7 +31,16 @@ namespace BLL.Logic
                 return null;
             }
         }
-
+        public EmployeeVM GetEmployeById(int id)
+        {
+            EmployeeVM employeeVM = _mapper.Map<EmployeeVM>(_unitWork.Employee.GetByID(id));
+            employeeVM.employeeRoleId = _unitWork.EmployeeRole.Get(X => X.UserId == id).Select(x => x.RoleId).ToList();
+            return employeeVM;
+        }
+        public int GetEmployeIdByEmail(string email)
+        {
+            return _unitWork.Employee.GetByEmail(email).Id;
+        }
 
         public bool isEmployeeActive(string email)
         {
@@ -44,10 +54,55 @@ namespace BLL.Logic
                 return false;
             }
         }
-
-        public IdentityResult Register(EmployeeVM employeeVM)
+        public IdentityResult Create(EmployeeVM employeeVM)
         {
-            return _userManager.CreateAsync(_mapper.Map<Employee>(employeeVM), employeeVM.Password).Result;
+            IdentityResult result = _userManager.CreateAsync(_mapper.Map<Employee>(employeeVM), employeeVM.Password == null ? "Tememp123!" : employeeVM.Password).Result;
+            if (result.Succeeded) {
+                _userManager.RemovePasswordAsync(_unitWork.Employee.GetByEmail(employeeVM.Email));
+            }
+            return result;
+        }
+
+
+        public void Update(EmployeeVM employeeVM)
+        {
+            Employee employee = _unitWork.Employee.GetByID(employeeVM.Id);
+
+
+            // guarantee only happen to specified details
+            employee.Activo = employeeVM.Activo;
+            employee.ApellidoMaterno = employeeVM.ApellidoMaterno;
+            employee.ApellidoPaterno = employeeVM.ApellidoPaterno;
+            employee.Base = employeeVM.Base;
+            employee.DeduccionAhorro = employeeVM.DeduccionAhorro;
+            employee.DeduccionDesayuno = employeeVM.DeduccionDesayuno;
+            employee.DeduccionGasolina = employeeVM.DeduccionGasolina;
+            employee.Email = employeeVM.Email;
+            employee.FechaBaja = employeeVM.FechaBaja;
+            employee.FechaIngreso = employeeVM.FechaIngreso;
+            employee.Nombre = employeeVM.Nombre;
+
+            // change employee data
+            _unitWork.Employee.update(employee);
+
+            //reset password
+            if (!String.IsNullOrEmpty(employeeVM.Password))
+            {
+                string token = _userManager.GeneratePasswordResetTokenAsync(employee).Result;
+                _userManager.ResetPasswordAsync(employee, token, employeeVM.Password);
+            }
+        }
+
+        // methods for Roles
+        public void DeleteEmployeeRoles(int employeeId)
+        {
+            _unitWork.EmployeeRole.DeleteBatch(_unitWork.EmployeeRole.Get(x => x.UserId == employeeId));
+        }
+
+        public void AddRoles(int employeeId, IEnumerable<int> rolesIds)
+        {
+            IEnumerable<IdentityUserRole<int>> rolesBatch = rolesIds.Select(role => new IdentityUserRole<int>() { RoleId = role, UserId = employeeId });
+            _unitWork.EmployeeRole.AddBatch(rolesBatch);
         }
     }
 }

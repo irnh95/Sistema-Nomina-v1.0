@@ -10,15 +10,18 @@ namespace BLL.ViewModels
 {
     public class EmployeeVM
     {
+        public EmployeeVM()
+        {
+            FechaIngreso = DateTime.Now.Date;
+        }
+
         [Required]
         public int Id { get; set; }
         public string UserName { get { return Email; } }
 
-        [Required]
         [Display(Name = "Contraseña")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        [Required]
         [Display(Name = "Confirmar Contraseña")]
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Your password and confirm password do not match")]
@@ -73,6 +76,7 @@ namespace BLL.ViewModels
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime FechaBaja { get; set; }
 
+        public ICollection<int> employeeRoleId { get; set; }
         public ICollection<EmployeeRoleVM> employeeRole { get; set; }
     }
 }

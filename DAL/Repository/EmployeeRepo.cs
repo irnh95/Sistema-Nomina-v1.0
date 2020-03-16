@@ -3,6 +3,7 @@ using DAL.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace DAL.Repository
 {
@@ -12,5 +13,9 @@ namespace DAL.Repository
         {
         }
 
+        public Employee GetByEmail(string email)
+        {
+            return dbSet.FirstOrDefault(employee => employee.Email == email);
+        }
     }
 }

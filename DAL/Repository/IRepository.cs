@@ -10,13 +10,15 @@ namespace DAL.Repository
     {
         void Delete(TEntity entity);
         void Delete(int id);
+        void DeleteBatch(IEnumerable<TEntity> entities);
         IEnumerable<TEntity> Get(
             Expression<Func<TEntity,bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = ""
             );
         TEntity GetByID(int id);
-        void inset(TEntity entity);
+        void Add(TEntity entity);
+        void AddBatch(IEnumerable<TEntity> entities);
         void update(TEntity entity);
         void Save();
     }

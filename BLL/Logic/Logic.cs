@@ -16,5 +16,10 @@ namespace BLL.Logic
             _unitWork = new UnitWork();
             _mapper = mapper;
         }
+
+        public void Commit()
+        {
+            _unitWork.Commit();
+        }
     }
 }
