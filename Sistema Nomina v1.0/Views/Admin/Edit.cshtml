@@ -92,7 +92,7 @@
                 @foreach (RoleVM role in ViewBag.Roles)
                 {
                     <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" data-val="true" name="employeeRoleId" value="@role.Id" @(Model.employeeRoleId.Any(x=> x == role.Id)? "Checked": null) > @role.Name
+                        <input class="form-check-input" type="checkbox" data-val="true" name="employeeRoleId" value="@role.Id"  @(( Model.employeeRoleId != null && Model.employeeRoleId.Any(x=> x == role.Id))? "Checked": null) > @role.Name
                     </label>
                 }
             </div>
