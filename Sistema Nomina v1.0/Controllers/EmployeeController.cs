@@ -24,22 +24,24 @@ namespace Sistema_Nomina_v1._0.Controllers
         // GET: Employee
         public ActionResult Index(int? id = null)
         {
-            if(Helpers.Helpers.IsUserActive(User.Identity.Name, _employeeLogic))
+            if (Helpers.Helpers.IsUserActive(User.Identity.Name, _employeeLogic))
             {
                 ModelState.AddModelError(string.Empty, "Usuario Desabilitado.");
-                return RedirectToAction("LogOut","Account");
+                return RedirectToAction("LogOut", "Account");
             }
 
-            EmployeeVM employeeVM = 
-                (id != null && User.IsInRole("Admin"))? 
-                    _employeeLogic.GetEmployeById((int)id) : 
+            EmployeeVM employeeVM =
+                (id != null && User.IsInRole("Admin")) ?
+                    _employeeLogic.GetEmployeById((int)id) :
                     _employeeLogic.GetEmployeByEmail(User.Identity.Name);
 
-            return View(employeeVM);
+            IEnumerable<PayRollVM> payRollVM = _employeeLogic.GetEmployeeMonthlyPayRoll(employeeVM.Id);
+
+            return View(new EmployeePeyRollVM() { EmployeeVM = employeeVM, PayRollsVM = payRollVM });
         }
 
         // GET: Employee/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int year, int month, int? id = null)
         {
             if (Helpers.Helpers.IsUserActive(User.Identity.Name, _employeeLogic))
             {
@@ -47,7 +49,11 @@ namespace Sistema_Nomina_v1._0.Controllers
                 return RedirectToAction("LogOut", "Account");
             }
 
-            return View();
+             id = (id != null && User.IsInRole("Admin")) ? (int)id : Int32.Parse(_signInManager.UserManager.GetUserId(User));
+
+            PayRollDetailVM payRollVM = _employeeLogic.GetEmployeeMonthPayRoll((int)id, year, month);
+
+            return View( payRollVM );
         }
     }
 }

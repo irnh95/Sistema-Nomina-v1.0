@@ -1,0 +1,73 @@
+﻿@model BLL.ViewModels.PayRollDetailVM
+
+@{
+    ViewData["Title"] = $"Detalles {Model.NombreCompleto}";
+}
+
+
+<div class="card bg-light">
+    <div class="card-body">
+        <h5 class="card-title">@Model.NombreCompleto</h5>
+        <b>Mensual - @Model.MonthName @Model.Year</b>
+
+        <hr />
+        <div class="row">
+            <div class="col-sm-10">
+                @Html.DisplayNameFor(model => model.Base)
+            </div>
+            <div class="col-sm-2 rigt">
+                @Html.DisplayFor(model => model.Base)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <b>@Html.DisplayNameFor(model => model.Percepciones)</b>
+            </div>
+            <div class="col-sm-2">
+                @Html.DisplayFor(model => model.Percepciones)
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-10">
+                @Html.DisplayNameFor(model => model.Ahorros)
+            </div>
+            <div class="col-sm-2">
+                @Html.DisplayFor(model => model.Ahorros)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                @Html.DisplayNameFor(model => model.Desayunos)
+            </div>
+            <div class="col-sm-2">
+                @Html.DisplayFor(model => model.Desayunos)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                @Html.DisplayNameFor(model => model.Gasolina)
+            </div>
+            <div class="col-sm-2">
+                @Html.DisplayFor(model => model.Gasolina)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <b>@Html.DisplayNameFor(model => model.Deducciones)</b>
+            </div>
+            <div class="col-sm-2">
+                @Html.DisplayFor(model => model.Deducciones)
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-10">
+                <b>@Html.DisplayNameFor(model => model.Deposito)</b>
+            </div>
+            <div class="col-sm-2">
+                <span class="text-success">@Html.DisplayFor(model => model.Deposito)</span>
+            </div>
+        </div>
+    </div>
+</div>

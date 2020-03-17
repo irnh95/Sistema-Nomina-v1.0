@@ -72,3 +72,9 @@ body {
 .clickable{
     cursor:pointer;
 }
+
+.card .row {
+    background-color: #fff;
+    border-bottom-style: solid;
+    border-bottom-color: #f8f9fa;
+}

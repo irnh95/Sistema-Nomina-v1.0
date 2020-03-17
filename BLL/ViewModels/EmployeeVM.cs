@@ -32,6 +32,7 @@ namespace BLL.ViewModels
         public string Email { get; set; }
         [Required]
         public string Nombre { get; set; }
+        public string NombreCompleto { get { return $"{Nombre} {ApellidoPaterno} {ApellidoMaterno}"; } }
 
         [Required]
         [Display(Name = "Apellido Paterno")]

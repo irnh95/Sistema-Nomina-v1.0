@@ -6,6 +6,7 @@ using DAL.UnitWork;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -24,7 +25,7 @@ namespace BLL.Logic
         {
             try
             {
-                return _mapper.Map<List<EmployeeVM>>(_unitWork.Employee.Get().OrderByDescending(x=>x.FechaIngreso));
+                return _mapper.Map<List<EmployeeVM>>(_unitWork.Employee.Get().OrderByDescending(x => x.FechaIngreso));
             }
             catch (Exception e)
             {
@@ -41,6 +42,8 @@ namespace BLL.Logic
         {
             return _mapper.Map<EmployeeVM>(_unitWork.Employee.GetByEmail(email));
         }
+
+
         public int GetEmployeIdByEmail(string email)
         {
             return _unitWork.Employee.GetByEmail(email).Id;
@@ -61,11 +64,13 @@ namespace BLL.Logic
         public IdentityResult Create(EmployeeVM employeeVM)
         {
             IdentityResult result = _userManager.CreateAsync(_mapper.Map<Employee>(employeeVM), employeeVM.Password == null ? "Tememp123!" : employeeVM.Password).Result;
-            if (result.Succeeded) {
+            if (result.Succeeded)
+            {
                 _userManager.RemovePasswordAsync(_unitWork.Employee.GetByEmail(employeeVM.Email));
             }
             return result;
         }
+
         public void Update(EmployeeVM employeeVM)
         {
             Employee employee = _unitWork.Employee.GetByID(employeeVM.Id);
@@ -118,13 +123,70 @@ namespace BLL.Logic
             _unitWork.EmployeeRole.AddBatch(rolesBatch);
         }
 
-        public IEnumerable<MonthlyPayRollVM> GetMonthlyPayRoll()
+        public IEnumerable<MonthlyPayRollVM> GetMonthPayRoll()
         {
-            return _unitWork.Employee.GetMonthlyPayRoll().Select(employee => new MonthlyPayRollVM() { 
+            return _unitWork.Employee.GetMonthPayRoll().Select(employee => new MonthlyPayRollVM()
+            {
                 EmployeeId = employee.Id,
-                Nombre =  $"{employee.ApellidoPaterno} {employee.ApellidoMaterno} {employee.Nombre}",
+                Nombre = $"{employee.ApellidoPaterno} {employee.ApellidoMaterno} {employee.Nombre}",
                 Deposito = employee.Base - employee.DeduccionAhorro - employee.DeduccionDesayuno - employee.DeduccionGasolina
             });
+        }
+
+        public List<PayRollVM> GetEmployeeMonthlyPayRoll(int id)
+        {
+            Employee employee = _unitWork.Employee.GetEmployeeMonthlyPayRoll(id);
+
+            // generate data for each month the user has been active
+            DateTime maxDate = employee.Activo ? DateTime.Now.Date : employee.FechaBaja.Date;
+            int monthDiff = (maxDate.Year - employee.FechaIngreso.Year) * 12 + maxDate.Month - employee.FechaIngreso.Month;
+
+            if (monthDiff >= 0)
+            {
+                List<PayRollVM> payroll = new List<PayRollVM>();
+                for (int i = 0; i <= monthDiff; i++)
+                {
+                    payroll.Add(new PayRollVM()
+                    {
+                        Deposito = employee.Base - employee.DeduccionAhorro - employee.DeduccionDesayuno - employee.DeduccionGasolina,
+                        Month = maxDate.Month,
+                        MonthName = CultureInfo.GetCultureInfo("es").DateTimeFormat.GetMonthName(maxDate.Month),
+                        Year = maxDate.Year
+                    });
+                    maxDate = maxDate.AddMonths(-1);
+                }
+                return payroll;
+            }
+            return null;
+        }
+
+        public PayRollDetailVM GetEmployeeMonthPayRoll(int id, int year, int month)
+        {
+            Employee employee = _unitWork.Employee.GetEmployeeMonthlyPayRoll(id);
+            DateTime maxDate = employee.Activo ? DateTime.Now.Date : employee.FechaBaja.Date;
+
+            int yearInMonths = (year * 12 + month);
+            if ( (employee.FechaIngreso.Year * 12 + employee.FechaIngreso.Month) <= yearInMonths && yearInMonths <= (maxDate.Year * 12 + maxDate.Month) )
+            {
+                return new PayRollDetailVM()
+                {
+                    Id = employee.Id,
+
+                    Nombre = employee.Nombre,
+                    ApellidoPaterno = employee.ApellidoPaterno,
+                    ApellidoMaterno = employee.ApellidoMaterno,
+
+                    Base = employee.Base,
+                    Ahorros = employee.DeduccionAhorro,
+                    Gasolina = employee.DeduccionGasolina,
+                    Desayunos = employee.DeduccionDesayuno,
+                    
+                    Month = month,
+                    MonthName = CultureInfo.GetCultureInfo("es").DateTimeFormat.GetMonthName(month),
+                    Year = year
+                };
+            }
+            return null;
         }
     }
 }

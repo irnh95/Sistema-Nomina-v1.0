@@ -18,11 +18,16 @@ namespace DAL.Repository
             return dbSet.FirstOrDefault(employee => employee.Email == email);
         }
 
-        public IEnumerable<Employee> GetMonthlyPayRoll()
+        public IEnumerable<Employee> GetMonthPayRoll()
         {
             return dbSet.Where(employee => employee.Activo
                 && employee.FechaIngreso.Year == DateTime.Now.Year
                 && employee.FechaIngreso.Month == DateTime.Now.Month).ToList();
+        }
+
+        public Employee GetEmployeeMonthlyPayRoll(int id)
+        {
+            return dbSet.Find(id);
         }
     }
 }

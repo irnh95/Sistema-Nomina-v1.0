@@ -162,7 +162,7 @@ namespace Sistema_Nomina_v1._0.Controllers
                 return RedirectToAction("LogOut", "Account");
             }
 
-            return View(_employeeLogic.GetMonthlyPayRoll());
+            return View(_employeeLogic.GetMonthPayRoll());
         }
     }
 }
