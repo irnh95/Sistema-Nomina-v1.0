@@ -117,5 +117,14 @@ namespace BLL.Logic
             IEnumerable<IdentityUserRole<int>> rolesBatch = rolesIds.Select(role => new IdentityUserRole<int>() { RoleId = role, UserId = employeeId });
             _unitWork.EmployeeRole.AddBatch(rolesBatch);
         }
+
+        public IEnumerable<MonthlyPayRollVM> GetMonthlyPayRoll()
+        {
+            return _unitWork.Employee.GetMonthlyPayRoll().Select(employee => new MonthlyPayRollVM() { 
+                EmployeeId = employee.Id,
+                Nombre =  $"{employee.ApellidoPaterno} {employee.ApellidoMaterno} {employee.Nombre}",
+                Deposito = employee.Base - employee.DeduccionAhorro - employee.DeduccionDesayuno - employee.DeduccionGasolina
+            });
+        }
     }
 }

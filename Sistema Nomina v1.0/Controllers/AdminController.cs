@@ -151,5 +151,18 @@ namespace Sistema_Nomina_v1._0.Controllers
             _employeeLogic.Commit();
             return RedirectToAction(nameof(Index));
         }
+
+
+        // GET: Admin/Nomina
+        public ActionResult Nomina()
+        {
+            if (Helpers.Helpers.IsUserActive(User.Identity.Name, _employeeLogic))
+            {
+                ModelState.AddModelError(string.Empty, "Usuario Desabilitado.");
+                return RedirectToAction("LogOut", "Account");
+            }
+
+            return View(_employeeLogic.GetMonthlyPayRoll());
+        }
     }
 }

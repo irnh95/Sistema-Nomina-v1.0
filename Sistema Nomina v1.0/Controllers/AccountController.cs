@@ -27,6 +27,10 @@ namespace Sistema_Nomina_v1._0.Controllers
         [HttpGet]
         public ActionResult LogIn()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("index", "Home");
+            }
             return View();
         }
 
