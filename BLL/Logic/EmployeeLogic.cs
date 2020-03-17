@@ -20,6 +20,40 @@ namespace BLL.Logic
             _userManager = useManager;
         }
 
+        /// <summary>
+        /// This method is only for test purposes
+        /// </summary>
+        public void CreateFirstAdmin()
+        {
+            try
+            {
+                if (!_unitWork.Employee.Get().Any())
+                {
+                    Create(new EmployeeVM() { 
+                        Activo = true,
+                        Nombre = "Admin",
+                        ApellidoPaterno = "Test",
+                        ApellidoMaterno = "User",
+                        Base = 0,
+                        DeduccionAhorro = 0,
+                        DeduccionDesayuno = 0,
+                        DeduccionGasolina = 0,
+                        Email = "admin@test.user",
+                        Password = "TestUser1!",
+                        FechaIngreso = DateTime.Now,
+                    });
+                    IdentityRole<int> role = new IdentityRole<int>() { Name = "Admin" };
+                    _unitWork.Role.Add(role);
+                    Commit();
+
+                    int id = GetEmployeIdByEmail("admin@test.user");
+                    AddRoles(id, new int[] { role.Id });
+                    Commit();
+                }
+            }
+            catch(Exception e) { }
+        }
+
         // methods for employees
         public IEnumerable<EmployeeVM> GetEmployees()
         {
@@ -38,6 +72,7 @@ namespace BLL.Logic
             employeeVM.employeeRoleId = _unitWork.EmployeeRole.Get(X => X.UserId == id).Select(x => x.RoleId).ToList();
             return employeeVM;
         }
+
         public EmployeeVM GetEmployeByEmail(string email)
         {
             return _mapper.Map<EmployeeVM>(_unitWork.Employee.GetByEmail(email));
@@ -64,7 +99,7 @@ namespace BLL.Logic
         public IdentityResult Create(EmployeeVM employeeVM)
         {
             IdentityResult result = _userManager.CreateAsync(_mapper.Map<Employee>(employeeVM), employeeVM.Password == null ? "Tememp123!" : employeeVM.Password).Result;
-            if (result.Succeeded)
+            if (result.Succeeded && employeeVM.Password == null)
             {
                 _userManager.RemovePasswordAsync(_unitWork.Employee.GetByEmail(employeeVM.Email));
             }
@@ -102,6 +137,7 @@ namespace BLL.Logic
         public void SwitchStatus(int id)
         {
             Employee employee = _unitWork.Employee.GetByID(id);
+            employee.employeeRole = null;
             if (employee.Activo)
             {
                 employee.FechaBaja = DateTime.Now.Date;
@@ -123,6 +159,7 @@ namespace BLL.Logic
             _unitWork.EmployeeRole.AddBatch(rolesBatch);
         }
 
+        // payroll methods
         public IEnumerable<MonthlyPayRollVM> GetMonthPayRoll()
         {
             return _unitWork.Employee.GetMonthPayRoll().Select(employee => new MonthlyPayRollVM()

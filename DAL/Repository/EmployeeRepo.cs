@@ -21,8 +21,8 @@ namespace DAL.Repository
         public IEnumerable<Employee> GetMonthPayRoll()
         {
             return dbSet.Where(employee => employee.Activo
-                && employee.FechaIngreso.Year == DateTime.Now.Year
-                && employee.FechaIngreso.Month == DateTime.Now.Month).ToList();
+                && (employee.FechaIngreso.Year *12 + employee.FechaIngreso.Month) <= (DateTime.Now.Year * 12 + DateTime.Now.Month)
+                ).ToList();
         }
 
         public Employee GetEmployeeMonthlyPayRoll(int id)

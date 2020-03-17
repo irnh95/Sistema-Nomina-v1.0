@@ -32,6 +32,9 @@ namespace Sistema_Nomina_v1._0.Controllers
 
             _employeeLogic = new EmployeeLogic(_mapper, userManager);
             _roleLogic = new RoleLogic(_mapper);
+
+            // this method is for test purposes
+            _employeeLogic.CreateFirstAdmin();
         }
     }
 }

@@ -18,15 +18,25 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr onclick="location.href = '/Employee/index/@item.EmployeeId'" class="clickable">
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                $@Html.DisplayFor(modelItem => item.Deposito)
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr onclick="location.href = '/Employee/index/@item.EmployeeId'" class="clickable">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    $@Html.DisplayFor(modelItem => item.Deposito)
+                </td>
+            </tr>
+        }
+
+        <tr>
+            <th>
+                Total
+            </th>
+            <th>
+                $@Model.Sum(x => x.Deposito)
+            </th>
         </tr>
-}
     </tbody>
 </table>
